@@ -44,6 +44,12 @@ connections = [ [((1,1),(2,1))]
                 #toDo
     ]
 
+#calculate possible rows
+
+
+
+
+
 def solve( board, rot):
   piece_x = len(board) % 4
   piece_y = int(len(board) / 4) 
