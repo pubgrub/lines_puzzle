@@ -55,6 +55,8 @@ rows_with_dup = {}
 conn_top = []
 conn_bot = []
 
+conn_top_pieces = {}
+conn_bot_pieces = {}
 
 def get_conn_val(row, rot):
   top = 0
@@ -98,26 +100,31 @@ def build_rows( line, rot):
        
             dup_row[pd_i] = dup_val[pd]
             with_dup = True
-        if with_dup:
-          if with_dup and not tuple(dup_row) in rows_with_dup:
+        if not tuple(dup_row) in rows_with_dup:
+          if with_dup:
             rows_with_dup[tuple(dup_row)] = 0
-            rows.append(l)
-            rows_rot.append(lr)
-          (top, bottom) = get_conn_val(l, lr)            
-          conn_top.append( top)
-          conn_bot.append( bottom)
-        else:
           rows.append(l)
           rows_rot.append(lr)
           (top, bottom) = get_conn_val(l, lr)            
           conn_top.append( top)
           conn_bot.append( bottom)
+          if top in conn_top_pieces:
+            conn_top_pieces[top].append( len(rows) - 1)
+          else:
+            conn_top_pieces[top] = [len(rows) - 1]
+          if bottom in conn_bot_pieces:
+            conn_bot_pieces[bottom].append( len(rows) - 1)
+          else:
+            conn_bot_pieces[bottom] = [len(rows) - 1]
 
 
         if len(rows) % 10000 == 0:
           print( len(rows), rows[-1], rows_rot[-1])
 
+
 build_rows([],[])
+for i in conn_top_pieces:
+  print( i, len(conn_top_pieces[i]))
 exit()
 
 def solve( board, rot):
