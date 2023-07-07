@@ -30,11 +30,9 @@ for i, p in enumerate( pieces_orig):
   pieces.append([p])
   p_temp = p.copy()
   for r in range( 0,3):
-    for j,entry in enumerate(p_temp):
-      entry += 2
-      if entry > 7:
-        entry -= 8
-      p_temp[j] = entry
+    for j,connector in enumerate(p_temp):
+      connector = (connector + 2) % 8
+      p_temp[j] = connector
     if p_temp not in pieces[i]:
       pieces[i].append(p_temp.copy())
 for p in pieces:
